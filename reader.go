@@ -218,7 +218,7 @@ func (wav *WavReader) ReadSample() (n int32, err error) {
 	case 1:
 		n = int32(s[0])
 	case 2:
-		n = int32(s[0]) + int32(s[1])<<8
+		n = int32(int16(s[0]) + int16(s[1])<<8)
 	case 3:
 		n = int32(s[0]) + int32(s[1])<<8 + int32(s[2])<<16
 	case 4:

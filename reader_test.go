@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"io"
 
-	. "github.com/smartystreets/goconvey/convey"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
 
 func TestNewWavReader(t *testing.T) {
@@ -207,7 +208,7 @@ func TestReadRawSample(t *testing.T) {
 
 			0x64, 0x61, 0x74, 0x61, // "data"
 			0x02, 0x00, 0x00, 0x00,
-			0x01, 0x01,
+			0xC8, 0xFF,
 		}
 		wavFile := bytes.NewReader(wavData)
 
@@ -221,13 +222,13 @@ func TestReadRawSample(t *testing.T) {
 		Convey("ReadRawSample should match", func() {
 			sample, err := wavReader.ReadRawSample()
 			So(err, ShouldBeNil)
-			So(sample, ShouldResemble, []byte{1, 1})
+			So(sample, ShouldResemble, []byte{200, 255})
 		})
 
 		Convey("ReadSample should match", func() {
 			sample, err := wavReader.ReadSample()
 			So(err, ShouldBeNil)
-			So(sample, ShouldEqual, 257)
+			So(sample, ShouldEqual, -56)
 		})
 	})
 }
